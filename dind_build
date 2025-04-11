@@ -19,6 +19,22 @@ pipeline {
     }
 }
 
-// docker:stable-dind is the Docker image we’re using. It’s the official image designed for Docker-in-Docker
-// --privileged flag: This is required for Docker to work inside a Docker container
-// The sh commands test basic Docker functionality, running docker version, docker info, and docker run hello-world
+#########################
+
+pipeline {
+    agent any
+    stages {
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    docker.image('docker:stable-dind').inside('--privileged') {
+                        // Run Docker commands inside this container
+                        sh 'docker version'
+                        sh 'docker info'
+                        sh 'docker run hello-world'
+                    }
+                }
+            }
+        }
+    }
+}
