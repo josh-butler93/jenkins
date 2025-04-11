@@ -1,0 +1,20 @@
+pipeline {
+    agent {
+        docker{
+            image 'docker:stable-dind'
+            args '--privileged'
+        }
+    }
+    stages {
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    // Sample Docker commands for teesting
+                    sh 'docker version'
+                    sh 'docker info'
+                    sh 'docker run hello-world'
+                }
+            }
+        }
+    }
+}
